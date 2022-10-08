@@ -3,6 +3,8 @@ GUI
 """
 
 # standard
+from pathlib import Path
+from sys import platform
 from subprocess import Popen
 import logging as logger
 
@@ -19,7 +21,15 @@ ctk.set_appearance_mode('System')
 ctk.set_default_color_theme('blue')
 
 
+pwd = Path(__file__).parent
+logo = (
+    pwd / '../logo.ico'
+    if platform == 'win32'
+    else '@' / pwd / '../logo.xbm'
+)
+
 # pylint: disable = logging-fstring-interpolation
+
 
 class App(ctk.CTk):
     """
@@ -29,8 +39,10 @@ class App(ctk.CTk):
     def __init__(self) -> None:
         super().__init__()
         self.proc: Popen[bytes] | None = None
+        self.iconbitmap(logo)
         self.title('Key Management Service Manager')
         generate_frame(self)
+        logger.info('Start application')
 
     def update_status(self, message) -> None:
         """Update status"""
@@ -69,7 +81,8 @@ class App(ctk.CTk):
 
     def on_closing(self):
         """Close App"""
-        self.stop_kms()
+        if self.proc:
+            self.stop_kms()
         self.destroy()
         logger.info('Exit application')
 
