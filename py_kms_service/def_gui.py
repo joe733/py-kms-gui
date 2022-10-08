@@ -36,7 +36,7 @@ def __frame_layout(this: ctk.CTk):
 
 def __left_frame(this: ctk.CTk):
     """Left Frame"""
-    # configure grid layout (11x1)
+    # configure grid layout (7x1)
     # empty row with minsize as spacing
     this.frame_left.grid_rowconfigure(0, minsize=10)
     # empty row as spacing
@@ -55,31 +55,17 @@ def __left_frame(this: ctk.CTk):
 
     this.install_button = ctk.CTkButton(
         master=this.frame_left,
-        text='Install Service',
-        command=this.install_kms
+        text='Start',
+        command=this.start_kms
     )
     this.install_button.grid(row=2, column=0, pady=10, padx=20)
 
     this.remove_button = ctk.CTkButton(
         master=this.frame_left,
-        text='Uninstall Service',
-        command=this.remove_kms
-    )
-    this.remove_button.grid(row=3, column=0, pady=10, padx=20)
-
-    this.start_button = ctk.CTkButton(
-        master=this.frame_left,
-        text='Start Service',
-        command=this.start_kms
-    )
-    this.start_button.grid(row=4, column=0, pady=10, padx=20)
-
-    this.stop_button = ctk.CTkButton(
-        master=this.frame_left,
-        text='Stop Service',
+        text='Stop',
         command=this.stop_kms
     )
-    this.stop_button.grid(row=5, column=0, pady=10, padx=20)
+    this.remove_button.grid(row=3, column=0, pady=10, padx=20)
 
     this.label_mode = ctk.CTkLabel(
         master=this.frame_left, text='Appearance:'
@@ -116,11 +102,11 @@ def __right_frame(this: ctk.CTk):
 
     this.service_status = ctk.CTkLabel(
         master=this.status_frame,
-        text='KMS Status:',
+        text='KMS Status:\n\nServer is stopped',
         justify=LEFT,
     )
     this.service_status.grid(
-        row=0, column=0, pady=20, sticky='nwe'
+        row=0, column=0, padx=20, pady=20, sticky='nswe'
     )
 
     this.project_info = ctk.CTkLabel(
