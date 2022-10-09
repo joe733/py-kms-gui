@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "py-kms-service"
-version = "0.1.1"
+version = "0.1.2"
 description = "PyKMS as a service"
 authors = ["Jovial Joe Jayarson <jovial7joe@hotmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ packages = [{ include = "py_kms_service" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-py-kms-api = "^1.0.1"
+py-kms-api = "^1.0.2"
 customtkinter = "^4.6.3"
 
 [tool.poetry.group.dev.dependencies]

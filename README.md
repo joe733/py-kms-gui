@@ -1,1 +1,1 @@
-# PyKMS Service
+# PyKMS GUI
