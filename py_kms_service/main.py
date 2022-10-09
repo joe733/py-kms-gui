@@ -2,6 +2,7 @@
 GUI
 """
 
+
 # standard
 from pathlib import Path
 from sys import platform
@@ -21,11 +22,11 @@ ctk.set_appearance_mode('System')
 ctk.set_default_color_theme('blue')
 
 
-pwd = Path(__file__).parent
+project_root = Path(__file__).parent.parent
 logo = (
-    pwd / '../logo.ico'
+    project_root / 'logo.ico'
     if platform == 'win32'
-    else '@' / pwd / '../logo.xbm'
+    else f'@/{project_root / "logo.xbm"}'
 )
 
 # pylint: disable = logging-fstring-interpolation
@@ -44,21 +45,19 @@ class App(ctk.CTk):
         generate_frame(self)
         logger.info('Start application')
 
-    def update_status(self, message) -> None:
+    def update_status(self, message: str) -> None:
         """Update status"""
-        self.service_status.configure(
-            text=f'KMS Status:\n\n{message}'
-        )
+        self.service_status.configure(text=message)
 
     def start_kms(self) -> None:
         """Start KMS"""
         if isinstance(self.proc, Popen):
-            self.update_status('Server already is running at 0.0.0.0:1688')
-            logger.debug('KMS Server is already running')
+            self.update_status('Server already is running')
+            logger.debug('KMS Server is already running at 0.0.0.0:1688')
             return
         self.proc = start_server()
-        self.update_status('Server started at 0.0.0.0:1688')
-        logger.info('Started KMS server')
+        self.update_status('Server is running')
+        logger.info('Started KMS server at 0.0.0.0:1688')
 
     def stop_kms(self) -> None:
         """Stop KMS"""

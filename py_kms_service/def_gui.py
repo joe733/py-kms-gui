@@ -3,6 +3,7 @@ App GUI definition
 """
 
 # standard
+from inspect import cleandoc
 from tkinter import LEFT
 
 # external
@@ -67,6 +68,13 @@ def __left_frame(this: ctk.CTk):
     )
     this.remove_button.grid(row=3, column=0, pady=10, padx=20)
 
+    this.service_status = ctk.CTkLabel(
+        master=this.frame_left,
+        text='',
+        text_font=('Roboto', -10)  # font name and size in px
+    )
+    this.service_status.grid(row=4, column=0, pady=10, padx=10)
+
     this.label_mode = ctk.CTkLabel(
         master=this.frame_left, text='Appearance:'
     )
@@ -88,10 +96,10 @@ def __right_frame(this: ctk.CTk):
     this.frame_right.columnconfigure((0, 1), weight=1)
     this.frame_right.columnconfigure(2, weight=0)
 
-    this.status_frame = ctk.CTkFrame(master=this.frame_right)
-    this.status_frame.grid(
-        row=0, column=0, rowspan=8, columnspan=4,
-        padx=20, pady=20, sticky='nsew'
+    this.info_frame = ctk.CTkFrame(master=this.frame_right)
+    this.info_frame.grid(
+        row=0, column=0, rowspan=10, columnspan=4,
+        padx=20, pady=10, sticky='nsew'
     )
 
     this.frame_bottom = ctk.CTkFrame(master=this.frame_right, fg_color=None)
@@ -100,12 +108,34 @@ def __right_frame(this: ctk.CTk):
         padx=20, pady=20, sticky='nsew'
     )
 
-    this.service_status = ctk.CTkLabel(
-        master=this.status_frame,
-        text='KMS Status:\n\nServer is stopped',
+    this.instructions = ctk.CTkLabel(
+        master=this.info_frame,
+        text=cleandoc(
+            """
+                # Steps for Windows activation
+                1. Start the server & open command prompt as administrator
+                2. To install activation key, type:
+                \tslmgr /ipk <YOUR_LICENSE_KEY>
+                3. To configure server, type:
+                \tslmgr /ipk localhost:1688
+                Then to activate, type:
+                \tslmgr /ato\n
+                # Steps for Office activation
+                1. Start the server & open command prompt as administrator and goto office directory:
+                \tcd /d %ProgramFiles%\Microsoft Office\Office16
+                2. To convert to volume license, type:
+                \tfor /f %x in ('dir /b ..\\root\Licenses16\ProPlus2021VL_KMS*.xrm-ms')\r\tdo cscript ospp.vbs /inslic:"..\\root\Licenses16\%x"
+                3. To activate, type:
+                \tcscript ospp.vbs /setprt:1688
+                \tcscript ospp.vbs /unpkey:<LAST_4_CHARACTERS_OF_YOUR_KEY> >nul
+                \tcscript ospp.vbs /inpkey:<YOUR_LICENSE_KEY>
+                \tcscript ospp.vbs /sethst:localhost
+                \tcscript ospp.vbs /act
+            """
+        ),
         justify=LEFT,
     )
-    this.service_status.grid(
+    this.instructions.grid(
         row=0, column=0, padx=20, pady=20, sticky='nswe'
     )
 
@@ -140,7 +170,6 @@ def __frame_defaults(this: ctk.CTk):
     """Default behavior"""
     # set default values
     this.mode_option.set('System')
-    # this.start_button.configure(state='disabled', text='Disabled CTkButton')
 
 
 def generate_frame(this: ctk.CTk):
