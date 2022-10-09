@@ -179,7 +179,7 @@ def generate_frame(this: ctk.CTk):
 
     this.geometry(f'{width}x{height}')
     this.minsize(width=width, height=height)
-    this.maxsize(width=width, height=height)
+    # this.maxsize(width=width, height=height)
 
     # call .on_closing() when app gets closed
     this.protocol('WM_DELETE_WINDOW', this.on_closing)

@@ -2,11 +2,10 @@
 GUI
 """
 
-
 # standard
+from subprocess import Popen
 from pathlib import Path
 from sys import platform
-from subprocess import Popen
 import logging as logger
 
 # external
@@ -20,16 +19,9 @@ from def_gui import generate_frame
 ctk.set_appearance_mode('System')
 # Themes: 'blue' (standard), 'green', 'dark-blue'
 ctk.set_default_color_theme('blue')
-
-
-project_root = Path(__file__).parent.parent
-logo = (
-    project_root / 'logo.ico'
-    if platform == 'win32'
-    else f'@/{project_root / "logo.xbm"}'
-)
-
 # pylint: disable = logging-fstring-interpolation
+pwd = Path(__file__).parent
+logo = pwd / 'logo.ico' if platform == 'win32' else f'@/{pwd / "logo.xbm"}'
 
 
 class App(ctk.CTk):
@@ -91,6 +83,7 @@ logger.basicConfig(
     format='[%(asctime)s] ln. %(lineno)-3d %(levelname)-8s %(message)s',
     level=logger.DEBUG
 )
+# pylint: enable = logging-fstring-interpolation
 
 if __name__ == '__main__':
     print()
